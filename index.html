@@ -178,7 +178,7 @@
           stage: null,
         },
         methods: {
-          createImage: function (title) {
+          createImage: function () {
             this.addIdToCanvas(this.twitterid);
             this.addSongTitleToCanvas(this.songs.song01, 0);
             this.addSongTitleToCanvas(this.songs.song02, 1);
@@ -190,6 +190,8 @@
             this.addSongTitleToCanvas(this.songs.song08, 7);
             this.addSongTitleToCanvas(this.songs.song09, 8);
 
+            // The reason that call twice is why to update canvas completly.
+            this.stage.update();
             this.stage.update();
           },
           addSongTitleToCanvas: function (title, index) {
@@ -223,7 +225,6 @@
           this.stage = new createjs.Stage("myCanvas");
           var bmp = new createjs.Bitmap("background.png");
           this.stage.addChild(bmp);
-          this.createImage();
         },
       });
     </script>
