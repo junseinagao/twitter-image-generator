@@ -136,7 +136,7 @@
                 >
               </v-col>
             </v-row>
-            <v-row>
+            <v-row v-if="!imgUrl">
               <v-col>
                 <canvas
                   id="myCanvas"
@@ -175,6 +175,7 @@
             song09: "",
           },
           twitterid: "",
+          imgUrl: "",
           stage: null,
         },
         methods: {
@@ -193,6 +194,8 @@
             // The reason that call twice is why to update canvas completly.
             this.stage.update();
             this.stage.update();
+
+            this.mountImage();
           },
           addSongTitleToCanvas: function (title, index) {
             var text = new createjs.Text(title, '50px "Noto Sans JP"', "black");
@@ -219,6 +222,16 @@
             dummylink.href = dataUrl;
             dummylink.download = "私の吹奏楽曲9選.png";
             dummylink.click();
+          },
+
+          mountImage: function () {
+            const dataUrl = this.stage.toDataURL();
+            this.imgUrl = dataUrl;
+
+            const app = document.getElementById("app");
+            const imgTag = document.createElement("img");
+            imgTag.src = dataUrl;
+            app.appendChild(imgTag);
           },
         },
         mounted: function () {
