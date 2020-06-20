@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
+      rel="stylesheet"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap"
+      rel="stylesheet"
+    />
+    <title>私の吹奏楽曲9選ジェネレーター</title>
+  </head>
+  <body>
+    <div id="app">
+      <v-app>
+        <v-main>
+          <v-container>
+            <v-row>
+              <v-col>
+                <h1>私の吹奏楽曲9選ジェネレーター</h1>
+                <h3>01 死に物狂いで練習した曲</h3>
+                <v-text-field
+                  v-model="songs.song01"
+                  label="死に物狂いで練習した曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>02 練習がめちゃくちゃ楽しかった曲</h3>
+                <v-text-field
+                  v-model="songs.song02"
+                  label="練習がめちゃくちゃ楽しかった曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>03 すごく悔しい思いをした曲</h3>
+                <v-text-field
+                  v-model="songs.song03"
+                  label="すごく悔しい思いをした曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>04 本番が興奮しまくった曲</h3>
+                <v-text-field
+                  v-model="songs.song04"
+                  label="本番が興奮しまくった曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>05 どうかもう一度演奏したい曲</h3>
+                <v-text-field
+                  v-model="songs.song05"
+                  label="どうかもう一度演奏したい曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>06 聞くと励まされる曲</h3>
+                <v-text-field
+                  v-model="songs.song06"
+                  label="聞くと励まされる曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>07 自分の人生のOPを作るならこの曲</h3>
+                <v-text-field
+                  v-model="songs.song07"
+                  label="自分の人生のOPを作るならこの曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>08 一生に一度は吹いてみたい曲</h3>
+                <v-text-field
+                  v-model="songs.song08"
+                  label="一生に一度は吹いてみたい曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>09 誰かにプレゼントしたい曲</h3>
+                <v-text-field
+                  v-model="songs.song09"
+                  label="誰かにプレゼントしたい曲"
+                  single-line
+                  outlined
+                ></v-text-field>
+                <h3>Twiiter ID</h3>
+                <v-text-field
+                  v-model="twitterid"
+                  label="@S_U_W_O"
+                  single-line
+                  outlined
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <span>
+                『画像生成』ボタンで画像が生成されます。<br />画像を保存してからツイートに添付してツイートしてください。<br /><br />
+                (画像を保存する方法)<br />
+                パソコン:画像の上で右クリック→「名前を付けて画像を保存」 <br />
+                画像を長押しタップ→「写真に保存」
+              </span>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-btn large color="blue" dark @click="createImage">
+                  画像生成
+                </v-btn>
+              </v-col>
+              <v-col>
+                <v-btn large color="blue" dark @click="downloadImage">
+                  画像保存
+                </v-btn>
+              </v-col>
+              <v-col>
+                <a
+                  href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+                  class="twitter-share-button"
+                  data-size="large"
+                  data-hashtags="私の吹奏楽曲9選"
+                  data-related="S_U_W_O"
+                  data-lang="ja"
+                  data-show-count="false"
+                  >Tweet</a
+                >
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <canvas
+                  id="myCanvas"
+                  width="1920"
+                  height="1080"
+                  style="width: 1024px; height: 576px;"
+                ></canvas>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-main>
+      </v-app>
+    </div>
+    <script
+      async
+      src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"
+    ></script>
+    <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        vuetify: new Vuetify(),
+        data: {
+          songs: {
+            song01: "",
+            song02: "",
+            song03: "",
+            song04: "",
+            song05: "",
+            song06: "",
+            song07: "",
+            song08: "",
+            song09: "",
+          },
+          twitterid: "",
+          stage: null,
+        },
+        methods: {
+          createImage: function (title) {
+            this.addIdToCanvas(this.twitterid);
+            this.addSongTitleToCanvas(this.songs.song01, 0);
+            this.addSongTitleToCanvas(this.songs.song02, 1);
+            this.addSongTitleToCanvas(this.songs.song03, 2);
+            this.addSongTitleToCanvas(this.songs.song04, 3);
+            this.addSongTitleToCanvas(this.songs.song05, 4);
+            this.addSongTitleToCanvas(this.songs.song06, 5);
+            this.addSongTitleToCanvas(this.songs.song07, 6);
+            this.addSongTitleToCanvas(this.songs.song08, 7);
+            this.addSongTitleToCanvas(this.songs.song09, 8);
+
+            this.stage.update();
+          },
+          addSongTitleToCanvas: function (title, index) {
+            var text = new createjs.Text(title, '50px "Noto Sans JP"', "black");
+            text.x = 560;
+            text.y = 343 + index * 85;
+            text.textAlign = "start";
+            text.textBaseline = "middle";
+            this.stage.addChild(text);
+          },
+          addIdToCanvas: function (id) {
+            var text = new createjs.Text(id, 'bold 50px "sans-serif"', "black");
+            text.x = 1920;
+            text.y = 1080;
+            text.textAlign = "start";
+            text.textBaseline = "bottom";
+            text.alpha = 0.5;
+            text.rotation = -90;
+            this.stage.addChild(text);
+          },
+
+          downloadImage: function () {
+            const dataUrl = this.stage.toDataURL();
+            let dummylink = document.createElement("a");
+            dummylink.href = dataUrl;
+            dummylink.download = "私の吹奏楽曲9選.png";
+            dummylink.click();
+          },
+        },
+        mounted: function () {
+          this.stage = new createjs.Stage("myCanvas");
+          var bmp = new createjs.Bitmap("background.png");
+          this.stage.addChild(bmp);
+        },
+      });
+    </script>
+  </body>
+</html>
